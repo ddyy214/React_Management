@@ -1,45 +1,60 @@
-import './App.css';
-import { Component } from 'react';
-import Customer from './components/Customer';
+import * as React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
-//보내고자 하는 데이터를 명시해주기
-//customer 변수를 만들기
-const customers = [
-  {
-  'id':1,
-  'image' : 'https://placeimg.com/64/64/1',
-  'name' : '유다연',
-  'birthday' : '96122',
-  'gender' : '여자',
-  'job' : '대학생'
-},
-{
-  'id':2,
-  'image' : 'https://placeimg.com/64/64/2',
-  'name' : '나신입',
-  'birthday' : '940702',
-  'gender' : '남자',
-  'job' : '직장인'
-},
-{
-  'id':3,
-  'image' : 'https://placeimg.com/64/64/3',
-  'name' : '홍길동',
-  'birthday' : '031111',
-  'gender' : '남자',
-  'job' : '경찰'
-}]
-
-//화면 body를 담당하는 부분
-//Component란 말 그대로 웹 문서에서 어떠한 내용을 보여주기 위한 기본적인 단위라고 생각하자
-class App extends Component {
-  render() {
-    return (
-    <div>
-      {customers.map(c => { return ( <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gende={c.gender} job={c.job}/> ); })  }
-    </div>
-    );
-  }
+function createData(
+  name: string,
+  calories: number,
+  fat: number,
+  carbs: number,
+  protein: number,
+) {
+  return { name, calories, fat, carbs, protein };
 }
 
-export default App;
+const rows = [
+  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+  createData('Eclair', 262, 16.0, 24, 6.0),
+  createData('Cupcake', 305, 3.7, 67, 4.3),
+  createData('Gingerbread', 356, 16.0, 49, 3.9),
+];
+
+export default function BasicTable() {
+  return (
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Dessert (100g serving)</TableCell>
+            <TableCell align="right">Calories</TableCell>
+            <TableCell align="right">Fat (g)</TableCell>
+            <TableCell align="right">Carbs (g)</TableCell>
+            <TableCell align="right">Protein (g)</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow
+              key={row.name}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {row.name}
+              </TableCell>
+              <TableCell align="right">{row.calories}</TableCell>
+              <TableCell align="right">{row.fat}</TableCell>
+              <TableCell align="right">{row.carbs}</TableCell>
+              <TableCell align="right">{row.protein}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
